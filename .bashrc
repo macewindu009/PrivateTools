@@ -13,9 +13,13 @@ source $VO_CMS_SW_DIR/cmsset_default.sh
 
 grid()
 {
-        command -v voms-proxy-info &> /dev/null && echo "grid loaded"
-        source /cvmfs/grid.cern.ch/emi3ui-latest/etc/profile.d/setup-ui-example.sh
+    command -v voms-proxy-info &> /dev/null && echo "grid loaded"
+    source /cvmfs/grid.cern.ch/emi3ui-latest/etc/profile.d/setup-ui-example.sh
 	source /cvmfs/cms.cern.ch/crab3/crab.sh
+	cmsenv
+	export X509_USER_PROXY=/portal/ekpbms2/home/nzaeh/.globus/x509up_u12189
+	export SKIM_WORK_BASE=/storage/jbod/nzaeh/kappa_skim_workdir/
+	export PATH=$PATH:$CMSSW_BASE/src/grid-control:$CMSSW_BASE/src/grid-control/scripts
 }
 
 ba()
@@ -28,7 +32,7 @@ ba()
 
 b25()
 {
-        cd /home/nzaeh/CMSSW_8_0_25/src/
+    cd /home/nzaeh/CMSSW_8_0_25/src/
 	scram b -j10
 	cd -
 }
@@ -41,6 +45,24 @@ setuproot()
 	export LD_LIBRARY_PATH=/usr/local/cuda-8.0/:$LD_LIBRARY_PATH	
 }
 
+cms7()
+{
+    cd /home/nzaeh/CMSSW_7_4_7/src/
+    grid
+    source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+}
+#-------------------------------------------------------------
+# 'cd'
+# Each point after .. adds an additional level.
+#-------------------------------------------------------------
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
+alias .........='cd ../../../../../../../..'
 alias voms='voms-proxy-init -voms cms:/cms/dcms -valid 190:00'
 
 alias storage='cd /storage/jbod/nzaeh/'
